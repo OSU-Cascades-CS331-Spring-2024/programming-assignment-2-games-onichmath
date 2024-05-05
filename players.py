@@ -40,14 +40,33 @@ class MinimaxPlayer(Player):
             self.oppSym = 'O'
         else:
             self.oppSym = 'X'
+        self.depth = 5
        
         
     def get_move(self, board):
         """
-        Returns the move the minimax agent should make
+        Minimax search implementation
         """
-        print(board)
+        value, move = self.maxValue(board, self.depth)
         return 
+
+    def maxValue(self, board:OthelloBoard, depth:int):
+        """
+        Returns the best action for the maximizing player
+        """
+        move = (None,None)
+        if depth == 0 or not board.has_legal_moves_remaining(self.symbol):
+            return board.count_score(self.symbol), move
+        value = float('-inf')
+        for c, r in board.generate_legal_moves(self.symbol):
+            tempValue, tempMove = self.minValue(board, depth - 1)
+            if tempValue > value:
+                value = tempValue
+                move = tempMove
+        return value, move
+
+    def minValue(self, board:OthelloBoard, depth:int):
+        pass
 
     def minimax(self, board:OthelloBoard, depth:int, maximizingPlayer:bool):
         """
@@ -77,7 +96,7 @@ class MinimaxPlayer(Player):
                 if tempMinimaxValue < minimaxValue:
                     minimaxValue = min(minimaxValue, self.minimax(board, depth - 1, maximizingPlayer))
                     moves = (c, r)
-        return minimaxValue
+        return minimaxValue, moves
 
 
 
