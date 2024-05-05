@@ -63,12 +63,13 @@ class MinimaxPlayer(Player):
         Based off pseudocode in Chapter 5 of AI: A Modern Approach
         """
         move = (None,None)
-        if depth <= 0 or not board.has_legal_moves_remaining(self.symbol):
-            return board.count_score(self.symbol), move
+        maximizerSymbol = 'X'
+        if depth <= 0 or not board.has_legal_moves_remaining(maximizerSymbol):
+            return board.count_score(maximizerSymbol), move
         value = float('-inf')
-        for c, r in board.generate_legal_moves(self.symbol):
+        for c, r in board.generate_legal_moves(maximizerSymbol):
             tempBoard = board.clone_of_board()
-            tempBoard.play_move(c, r, symbol=self.symbol)
+            tempBoard.play_move(c, r, maximizerSymbol)
             tempValue, tempMove = self.minValue(tempBoard, depth - 1)
             if tempValue > value:
                 value = tempValue
@@ -81,12 +82,13 @@ class MinimaxPlayer(Player):
         Based off pseudocode in Chapter 5 of AI: A Modern Approach
         """
         move = (None,None)
-        if depth <= 0 or not board.has_legal_moves_remaining(self.symbol):
-            return board.count_score(self.symbol), move
+        minimizerSymbol = 'O'
+        if depth <= 0 or not board.has_legal_moves_remaining(minimizerSymbol):
+            return board.count_score(minimizerSymbol), move
         value = float('inf')
-        for c, r in board.generate_legal_moves(self.symbol):
+        for c, r in board.generate_legal_moves(minimizerSymbol):
             tempBoard = board.clone_of_board()
-            tempBoard.play_move(c, r, symbol=self.symbol)
+            tempBoard.play_move(c, r, minimizerSymbol)
             tempValue, tempMove = self.maxValue(tempBoard, depth - 1)
             if tempValue < value:
                 value = tempValue
