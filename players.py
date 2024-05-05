@@ -55,15 +55,6 @@ class MinimaxPlayer(Player):
             value, move = self.minValue(board, self.depth)
         return move
 
-    def heuristic(self, board:OthelloBoard):
-        """
-        Returns the heuristic for a state
-        Based off of pseudocode in research paper "An Analysis of Heuristics in Othello"
-        by Vaishnavi Sannidhanam and Muthukaruppan Annamalai, at https://courses.cs.washington.edu/courses/cse573/04au/Project/mini1/RUSSIA/Final_Paper.pdf
-        """
-        pass
-
-
     def maxValue(self, board:OthelloBoard, depth:int):
         """
         Returns the best action for the maximizing player
@@ -72,7 +63,7 @@ class MinimaxPlayer(Player):
         move = (None,None)
         maximizerSymbol = 'X'
         if depth <= 0 or not board.has_legal_moves_remaining(maximizerSymbol):
-            return board.count_score(maximizerSymbol), move
+            return board.heuristic(), move
         value = float('-inf')
         for c, r in board.generate_legal_moves(maximizerSymbol):
             tempBoard = board.clone_of_board()
@@ -91,7 +82,7 @@ class MinimaxPlayer(Player):
         move = (None,None)
         minimizerSymbol = 'O'
         if depth <= 0 or not board.has_legal_moves_remaining(minimizerSymbol):
-            return board.count_score(minimizerSymbol), move
+            return board.heuristic(), move
         value = float('inf')
         for c, r in board.generate_legal_moves(minimizerSymbol):
             tempBoard = board.clone_of_board()
