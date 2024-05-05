@@ -6,12 +6,13 @@ from players import *
 from othello_board import OthelloBoard
 
 
+
 class GameDriver:
-    def __init__(self, p1type, p2type, num_rows, num_cols):
+    def __init__(self, p1type, p2type, num_rows, num_cols, depth=5):
         if p1type.lower() in "human":
             self.p1 = HumanPlayer('X')
         elif p1type.lower() in "minimax" or p1type in "ai":
-            self.p1 = MinimaxPlayer('X')
+            self.p1 = MinimaxPlayer('X', depth=depth, maximizing=True)
         else:
             print("Invalid player 1 type!")
             exit(-1)
@@ -19,7 +20,7 @@ class GameDriver:
         if p2type.lower() in "human":
             self.p2 = HumanPlayer('O')
         elif p2type.lower() in "minimax" or p1type in "ai":
-            self.p2 = MinimaxPlayer('O')
+            self.p2 = MinimaxPlayer('O', depth=depth, maximizing=False)
         else:
             print("Invalid player 2 type!")
             exit(-1)

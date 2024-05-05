@@ -34,13 +34,14 @@ class HumanPlayer(Player):
 
 class MinimaxPlayer(Player):
 
-    def __init__(self, symbol):
+    def __init__(self, symbol, depth=5, maximizing=True):
         Player.__init__(self, symbol)
         if symbol == 'X':
             self.oppSym = 'O'
         else:
             self.oppSym = 'X'
-        self.depth = 5
+        self.depth = depth
+        self.maximizing = maximizing
        
         
     def get_move(self, board):
@@ -48,8 +49,11 @@ class MinimaxPlayer(Player):
         Minimax search implementation
         """
         # TODO: Find out if max or min player
-        value, move = self.maxValue(board, self.depth)
-        return 
+        if self.maximizing:
+            value, move = self.maxValue(board, self.depth)
+        else:
+            value, move = self.minValue(board, self.depth)
+        return move
 
     def maxValue(self, board:OthelloBoard, depth:int):
         """
