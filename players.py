@@ -2,6 +2,9 @@
     Defines Player class, and subclasses Human and Minimax Player.
 '''
 
+from othello_board import OthelloBoard
+
+
 class Player:
     def __init__(self, symbol):
         self.symbol = symbol
@@ -46,11 +49,14 @@ class MinimaxPlayer(Player):
         print(board)
         return 
 
-    def minimax(self, board, depth, maximizingPlayer):
+    def minimax(self, board:OthelloBoard, depth:int, maximizingPlayer:bool):
         """
         Returns the best action for the player
         Written based off AI: A Modern Approach Chapter 5 and https://en.wikipedia.org/wiki/Minimax#Pseudocode
         """
+        if depth == 0 or not board.has_legal_moves_remaining(self.symbol):
+            # If terminal, return utility
+            return board.count_score(self.symbol)
         return
 
 
