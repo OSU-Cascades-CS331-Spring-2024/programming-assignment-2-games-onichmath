@@ -57,15 +57,27 @@ class MinimaxPlayer(Player):
         if depth == 0 or not board.has_legal_moves_remaining(self.symbol):
             # If terminal, return utility
             return board.count_score(self.symbol)
+        minimaxValue = 0
+        moves = (-1,-1)
         if maximizingPlayer:
-            minValue = float('-inf')
+            minimaxValue = float('-inf')
             # For move in legal moves:
             # maxValue = max of minValue and minimax(move, depth-1, maximizingPlayer)
+            for c, r in board.generate_legal_moves(self.symbol):
+                tempMinimaxValue = self.minimax(board, depth - 1, not maximizingPlayer)
+                if tempMinimaxValue > minimaxValue:
+                    minimaxValue = max(minimaxValue, self.minimax(board, depth - 1, maximizingPlayer))
+                    moves = (c, r)
         else:
-            maxValue = float('inf')
+            minimaxValue = float('inf')
             # For move in legal moves:
             # maxValue = min of maxValue and minimax(move, depth-1, maximizingPlayer)
-        return
+            for c, r in board.generate_legal_moves(self.symbol):
+                tempMinimaxValue = self.minimax(board, depth - 1, not maximizingPlayer)
+                if tempMinimaxValue < minimaxValue:
+                    minimaxValue = min(minimaxValue, self.minimax(board, depth - 1, maximizingPlayer))
+                    moves = (c, r)
+        return minimaxValue
 
 
 
