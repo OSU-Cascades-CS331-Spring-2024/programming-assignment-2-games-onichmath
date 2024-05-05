@@ -119,6 +119,9 @@ class OthelloBoard(Board):
         self.set_cell(col, row, symbol)
         self.flip_pieces(col, row, symbol)
 
-
-
-
+    def generate_legal_moves(self, symbol):
+        # Generates legal move using has_legal_moves_remaining logic
+        for c in range(0, self.cols):
+            for r in range(0, self.rows):
+                if self.is_cell_empty(c, r) and self.is_legal_move(c, r, symbol):
+                    yield c, r
