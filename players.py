@@ -47,8 +47,8 @@ class MinimaxPlayer(Player):
     def get_move(self, board):
         """
         Minimax search implementation
+        Based off pseudocode in Chapter 5 of AI: A Modern Approach
         """
-        # TODO: Find out if max or min player
         if self.maximizing:
             value, move = self.maxValue(board, self.depth)
         else:
@@ -58,6 +58,7 @@ class MinimaxPlayer(Player):
     def maxValue(self, board:OthelloBoard, depth:int):
         """
         Returns the best action for the maximizing player
+        Based off pseudocode in Chapter 5 of AI: A Modern Approach
         """
         move = (None,None)
         if depth <= 0 or not board.has_legal_moves_remaining(self.symbol):
@@ -73,6 +74,7 @@ class MinimaxPlayer(Player):
     def minValue(self, board:OthelloBoard, depth:int):
         """
         Returns the best action for the minimizing player
+        Based off pseudocode in Chapter 5 of AI: A Modern Approach
         """
         move = (None,None)
         if depth <= 0 or not board.has_legal_moves_remaining(self.symbol):
