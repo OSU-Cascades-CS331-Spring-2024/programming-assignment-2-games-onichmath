@@ -55,6 +55,13 @@ class MinimaxPlayer(Player):
             value, move = self.minValue(board, self.depth)
         return move
 
+    def heuristic(self, board:OthelloBoard):
+        """
+        Returns the heuristic for a state
+        Based off of pseudocode in research paper "An Analysis of Heuristics in Othello"
+        by Vaishnavi Sannidhanam and Muthukaruppan Annamalai, at https://courses.cs.washington.edu/courses/cse573/04au/Project/mini1/RUSSIA/Final_Paper.pdf
+        """
+        pass
 
 
     def maxValue(self, board:OthelloBoard, depth:int):
