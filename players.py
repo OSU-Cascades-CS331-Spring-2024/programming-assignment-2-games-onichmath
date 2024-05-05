@@ -56,49 +56,27 @@ class MinimaxPlayer(Player):
         Returns the best action for the maximizing player
         """
         move = (None,None)
-        if depth == 0 or not board.has_legal_moves_remaining(self.symbol):
+        if depth <= 0 or not board.has_legal_moves_remaining(self.symbol):
             return board.count_score(self.symbol), move
         value = float('-inf')
         for c, r in board.generate_legal_moves(self.symbol):
             tempValue, tempMove = self.minValue(board, depth - 1)
             if tempValue > value:
                 value = tempValue
-                move = tempMove
+                move = (c, r)
         return value, move
 
     def minValue(self, board:OthelloBoard, depth:int):
-        pass
-
-    def minimax(self, board:OthelloBoard, depth:int, maximizingPlayer:bool):
         """
-        Returns the best action for the player
-        Written based off AI: A Modern Approach Chapter 5 and https://en.wikipedia.org/wiki/Minimax#Pseudocode
+        Returns the best action for the minimizing player
         """
-        if depth == 0 or not board.has_legal_moves_remaining(self.symbol):
-            # If terminal, return utility
-            return board.count_score(self.symbol)
-        minimaxValue = 0
-        moves = (-1,-1)
-        if maximizingPlayer:
-            minimaxValue = float('-inf')
-            # For move in legal moves:
-            # maxValue = max of minValue and minimax(move, depth-1, maximizingPlayer)
-            for c, r in board.generate_legal_moves(self.symbol):
-                tempMinimaxValue = self.minimax(board, depth - 1, not maximizingPlayer)
-                if tempMinimaxValue > minimaxValue:
-                    minimaxValue = max(minimaxValue, self.minimax(board, depth - 1, maximizingPlayer))
-                    moves = (c, r)
-        else:
-            minimaxValue = float('inf')
-            # For move in legal moves:
-            # maxValue = min of maxValue and minimax(move, depth-1, maximizingPlayer)
-            for c, r in board.generate_legal_moves(self.symbol):
-                tempMinimaxValue = self.minimax(board, depth - 1, not maximizingPlayer)
-                if tempMinimaxValue < minimaxValue:
-                    minimaxValue = min(minimaxValue, self.minimax(board, depth - 1, maximizingPlayer))
-                    moves = (c, r)
-        return minimaxValue, moves
-
-
-
-
+        move = (None,None)
+        if depth <= 0 or not board.has_legal_moves_remaining(self.symbol):
+            return board.count_score(self.symbol), move
+        value = float('inf')
+        for c, r in board.generate_legal_moves(self.symbol):
+            tempValue, tempMove = self.maxValue(board, depth - 1)
+            if tempValue < value:
+                value = tempValue
+                move = (c, r)
+        return value, move
