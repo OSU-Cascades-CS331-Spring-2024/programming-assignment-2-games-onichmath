@@ -39,7 +39,19 @@ class MinimaxPlayer(Player):
             self.oppSym = 'X'
        
         
+    def get_move(self, board):
+        """
+        Returns the move the minimax agent should make
+        """
+        print(board)
+        return 
 
+    def minimax(self, board, depth, maximizingPlayer):
+        """
+        Returns the best action for the player
+        Written based off AI: A Modern Approach Chapter 5 and https://en.wikipedia.org/wiki/Minimax#Pseudocode
+        """
+        return
 
 
 
