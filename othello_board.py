@@ -3,6 +3,7 @@
 '''
 
 from board import *
+from time import time
 
 
 class OthelloBoard(Board):
@@ -168,3 +169,13 @@ class OthelloBoard(Board):
         """
         return self.mobility() + self.corners_captured()
 
+    def isCutoff(self, symbol, start_time):
+        """
+        Returns true if the search should be cut off
+        Cutoff time is 10 seconds, based on project analysis requirements
+        """
+        if not self.has_legal_moves_remaining(symbol):
+            return True
+        if time() - start_time > 10:
+            return True
+        return False

@@ -66,7 +66,7 @@ class MinimaxPlayer(Player):
         """
         move = (None,None)
         maximizerSymbol = 'X'
-        if depth <= 0 or not board.has_legal_moves_remaining(maximizerSymbol):
+        if depth <= 0 or board.isCutoff(maximizerSymbol, start_time):
             return board.heuristic(), move
         value = float('-inf')
         for c, r in board.generate_legal_moves(maximizerSymbol):
@@ -88,7 +88,7 @@ class MinimaxPlayer(Player):
         """
         move = (None,None)
         minimizerSymbol = 'O'
-        if depth <= 0 or not board.has_legal_moves_remaining(minimizerSymbol):
+        if depth <= 0 or board.isCutoff(minimizerSymbol, start_time):
             return board.heuristic(), move
         value = float('inf')
         for c, r in board.generate_legal_moves(minimizerSymbol):
