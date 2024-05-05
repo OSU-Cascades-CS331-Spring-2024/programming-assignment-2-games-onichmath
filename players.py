@@ -55,6 +55,8 @@ class MinimaxPlayer(Player):
             value, move = self.minValue(board, self.depth)
         return move
 
+
+
     def maxValue(self, board:OthelloBoard, depth:int):
         """
         Returns the best action for the maximizing player
@@ -65,7 +67,9 @@ class MinimaxPlayer(Player):
             return board.count_score(self.symbol), move
         value = float('-inf')
         for c, r in board.generate_legal_moves(self.symbol):
-            tempValue, tempMove = self.minValue(board, depth - 1)
+            tempBoard = board.clone_of_board()
+            tempBoard.play_move(c, r, symbol=self.symbol)
+            tempValue, tempMove = self.minValue(tempBoard, depth - 1)
             if tempValue > value:
                 value = tempValue
                 move = (c, r)
@@ -81,7 +85,9 @@ class MinimaxPlayer(Player):
             return board.count_score(self.symbol), move
         value = float('inf')
         for c, r in board.generate_legal_moves(self.symbol):
-            tempValue, tempMove = self.maxValue(board, depth - 1)
+            tempBoard = board.clone_of_board()
+            tempBoard.play_move(c, r, symbol=self.symbol)
+            tempValue, tempMove = self.maxValue(tempBoard, depth - 1)
             if tempValue < value:
                 value = tempValue
                 move = (c, r)
