@@ -3,6 +3,7 @@
 '''
 
 from othello_board import OthelloBoard
+from time import time
 
 
 class Player:
@@ -51,13 +52,14 @@ class MinimaxPlayer(Player):
         """
         alpha = float('-inf')
         beta = float('inf')
+        move_start_time = time()
         if self.maximizing:
-            value, move = self.maxValue(board, self.depth, alpha, beta)
+            value, move = self.maxValue(board, self.depth, alpha, beta, move_start_time)
         else:
-            value, move = self.minValue(board, self.depth, alpha, beta)
+            value, move = self.minValue(board, self.depth, alpha, beta, move_start_time)
         return move
 
-    def maxValue(self, board:OthelloBoard, depth:int, alpha, beta):
+    def maxValue(self, board:OthelloBoard, depth:int, alpha, beta, start_time):
         """
         Returns the best action for the maximizing player
         Based off pseudocode in Chapter 5.2.3 of AI: A Modern Approach
@@ -70,7 +72,7 @@ class MinimaxPlayer(Player):
         for c, r in board.generate_legal_moves(maximizerSymbol):
             tempBoard = board.clone_of_board()
             tempBoard.play_move(c, r, maximizerSymbol)
-            tempValue, tempMove = self.minValue(tempBoard, depth - 1, alpha, beta)
+            tempValue, tempMove = self.minValue(tempBoard, depth - 1, alpha, beta, start_time)
             if tempValue > value:
                 value = tempValue
                 move = (c, r)
@@ -79,7 +81,7 @@ class MinimaxPlayer(Player):
                 return value, move
         return value, move
 
-    def minValue(self, board:OthelloBoard, depth:int, alpha, beta):
+    def minValue(self, board:OthelloBoard, depth:int, alpha, beta, start_time):
         """
         Returns the best action for the minimizing player
         Based off pseudocode in Chapter 5.2.3 of AI: A Modern Approach
@@ -92,7 +94,7 @@ class MinimaxPlayer(Player):
         for c, r in board.generate_legal_moves(minimizerSymbol):
             tempBoard = board.clone_of_board()
             tempBoard.play_move(c, r, minimizerSymbol)
-            tempValue, tempMove = self.maxValue(tempBoard, depth - 1, alpha, beta)
+            tempValue, tempMove = self.maxValue(tempBoard, depth - 1, alpha, beta, start_time)
             if tempValue < value:
                 value = tempValue
                 move = (c, r)
