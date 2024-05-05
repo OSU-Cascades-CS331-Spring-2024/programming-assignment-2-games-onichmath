@@ -81,8 +81,12 @@ class GameDriver:
 
 
 if __name__ == "__main__":
-    if(len(sys.argv)) != 3:
-        print("Usage: python3 game_driver.py <player1 type> <player2 type>")
+    if len(sys.argv) == 3:
+        game = GameDriver(sys.argv[1], sys.argv[2], 4, 4)
+        game.run()
+    elif len(sys.argv) == 5:
+        game = GameDriver(sys.argv[1], sys.argv[2], int(sys.argv[3]), int(sys.argv[3]), int(sys.argv[4]))
+        game.run()
+    else:
+        print("Usage: python3 game_driver.py <player1 type> <player2 type> <optional: size> <optional: depth>")
         exit(1)
-    game = GameDriver(sys.argv[1], sys.argv[2], 4, 4)
-    game.run()
