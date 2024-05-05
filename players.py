@@ -47,6 +47,7 @@ class MinimaxPlayer(Player):
         """
         Minimax search implementation
         """
+        # TODO: Find out if max or min player
         value, move = self.maxValue(board, self.depth)
         return 
 
