@@ -49,16 +49,18 @@ class MinimaxPlayer(Player):
         Minimax search implementation
         Based off pseudocode in Chapter 5 of AI: A Modern Approach
         """
+        alpha = float('-inf')
+        beta = float('inf')
         if self.maximizing:
-            value, move = self.maxValue(board, self.depth)
+            value, move = self.maxValue(board, self.depth, alpha, beta)
         else:
-            value, move = self.minValue(board, self.depth)
+            value, move = self.minValue(board, self.depth, alpha, beta)
         return move
 
-    def maxValue(self, board:OthelloBoard, depth:int):
+    def maxValue(self, board:OthelloBoard, depth:int, alpha, beta):
         """
         Returns the best action for the maximizing player
-        Based off pseudocode in Chapter 5 of AI: A Modern Approach
+        Based off pseudocode in Chapter 5.2.3 of AI: A Modern Approach
         """
         move = (None,None)
         maximizerSymbol = 'X'
@@ -68,16 +70,19 @@ class MinimaxPlayer(Player):
         for c, r in board.generate_legal_moves(maximizerSymbol):
             tempBoard = board.clone_of_board()
             tempBoard.play_move(c, r, maximizerSymbol)
-            tempValue, tempMove = self.minValue(tempBoard, depth - 1)
+            tempValue, tempMove = self.minValue(tempBoard, depth - 1, alpha, beta)
             if tempValue > value:
                 value = tempValue
                 move = (c, r)
+                alpha = max(alpha, value)
+            if value >= beta:
+                return value, move
         return value, move
 
-    def minValue(self, board:OthelloBoard, depth:int):
+    def minValue(self, board:OthelloBoard, depth:int, alpha, beta):
         """
         Returns the best action for the minimizing player
-        Based off pseudocode in Chapter 5 of AI: A Modern Approach
+        Based off pseudocode in Chapter 5.2.3 of AI: A Modern Approach
         """
         move = (None,None)
         minimizerSymbol = 'O'
@@ -87,8 +92,11 @@ class MinimaxPlayer(Player):
         for c, r in board.generate_legal_moves(minimizerSymbol):
             tempBoard = board.clone_of_board()
             tempBoard.play_move(c, r, minimizerSymbol)
-            tempValue, tempMove = self.maxValue(tempBoard, depth - 1)
+            tempValue, tempMove = self.maxValue(tempBoard, depth - 1, alpha, beta)
             if tempValue < value:
                 value = tempValue
                 move = (c, r)
+                beta = min(beta, value)
+            if value <= alpha:
+                return value, move
         return value, move
