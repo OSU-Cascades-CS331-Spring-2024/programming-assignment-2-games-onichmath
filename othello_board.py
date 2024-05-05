@@ -126,21 +126,26 @@ class OthelloBoard(Board):
                 if self.is_cell_empty(c, r) and self.is_legal_move(c, r, symbol):
                     yield c, r
 
-    def heuristic(self):
+    def mobility(self):
         """
-        Returns the heuristic for a state
+        Returns the mobility heuristic for a state
         Based off of pseudocode in research paper "An Analysis of Heuristics in Othello"
         by Vaishnavi Sannidhanam and Muthukaruppan Annamalai, at https://courses.cs.washington.edu/courses/cse573/04au/Project/mini1/RUSSIA/Final_Paper.pdf
         """
-        # Mobility
         max_moves = len(list(self.generate_legal_moves(self.p1_symbol)))
         min_moves = len(list(self.generate_legal_moves(self.p2_symbol)))
         if max_moves + min_moves != 0:
             mobility = 100 * (max_moves - min_moves) / (max_moves + min_moves)
         else:
             mobility = 0
+        return mobility
 
-        # Corners captured
+    def corners_captured(self):
+        """
+        Returns the corners captured heuristic for a state
+        Based off of pseudocode in research paper "An Analysis of Heuristics in Othello"
+        by Vaishnavi Sannidhanam and Muthukaruppan Annamalai, at https://courses.cs.washington.edu/courses/cse573/04au/Project/mini1/RUSSIA/Final_Paper.pdf
+        """
         corners = [[0, 0], [0, self.cols - 1], [self.rows - 1, 0], [self.rows - 1, self.cols - 1]]
         max_corners = 0
         min_corners = 0
@@ -153,6 +158,13 @@ class OthelloBoard(Board):
             corner_score = 100 * (max_corners - min_corners) / (max_corners + min_corners)
         else: 
             corner_score = 0
+        return corner_score
 
-        return mobility + corner_score
+    def heuristic(self):
+        """
+        Returns the heuristic for a state
+        Based off of pseudocode in research paper "An Analysis of Heuristics in Othello"
+        by Vaishnavi Sannidhanam and Muthukaruppan Annamalai, at https://courses.cs.washington.edu/courses/cse573/04au/Project/mini1/RUSSIA/Final_Paper.pdf
+        """
+        return self.mobility() + self.corners_captured()
 
