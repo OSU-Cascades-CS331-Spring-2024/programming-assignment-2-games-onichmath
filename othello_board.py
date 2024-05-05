@@ -125,3 +125,34 @@ class OthelloBoard(Board):
             for r in range(0, self.rows):
                 if self.is_cell_empty(c, r) and self.is_legal_move(c, r, symbol):
                     yield c, r
+
+    def heuristic(self):
+        """
+        Returns the heuristic for a state
+        Based off of pseudocode in research paper "An Analysis of Heuristics in Othello"
+        by Vaishnavi Sannidhanam and Muthukaruppan Annamalai, at https://courses.cs.washington.edu/courses/cse573/04au/Project/mini1/RUSSIA/Final_Paper.pdf
+        """
+        # Mobility
+        max_moves = len(list(self.generate_legal_moves(self.p1_symbol)))
+        min_moves = len(list(self.generate_legal_moves(self.p2_symbol)))
+        if max_moves + min_moves != 0:
+            mobility = 100 * (max_moves - min_moves) / (max_moves + min_moves)
+        else:
+            mobility = 0
+
+        # Corners captured
+        corners = [[0, 0], [0, self.cols - 1], [self.rows - 1, 0], [self.rows - 1, self.cols - 1]]
+        max_corners = 0
+        min_corners = 0
+        for c, r in corners:
+            if self.get_cell(c, r) == self.p1_symbol:
+                max_corners += 1
+            elif self.get_cell(c, r) == self.p2_symbol:
+                min_corners += 1
+        if max_corners + min_corners != 0:
+            corner_score = 100 * (max_corners - min_corners) / (max_corners + min_corners)
+        else: 
+            corner_score = 0
+
+        return mobility + corner_score
+
