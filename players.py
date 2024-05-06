@@ -47,7 +47,7 @@ class MinimaxPlayer(Player):
         self.moves = 0
 
     def __del__(self):
-        print(f"Player {self.symbol} made {self.moves} moves in an average {self.timer / self.moves} seconds.")
+        print(f"Player {self.symbol} made {self.moves} moves in an average {(self.timer / self.moves) :.4f} seconds.")
        
         
     def get_move(self, board):
