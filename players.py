@@ -43,6 +43,11 @@ class MinimaxPlayer(Player):
             self.oppSym = 'X'
         self.depth = depth
         self.maximizing = maximizing
+        self.timer = 0
+        self.moves = 0
+
+    def __del__(self):
+        print(f"Player {self.symbol} made {self.moves} moves in an average {self.timer / self.moves} seconds.")
        
         
     def get_move(self, board):
@@ -50,6 +55,8 @@ class MinimaxPlayer(Player):
         Minimax search implementation
         Based off pseudocode in Chapter 5 of AI: A Modern Approach
         """
+        self.moves += 1
+        start = time()
         alpha = float('-inf')
         beta = float('inf')
         move_start_time = time()
@@ -57,6 +64,8 @@ class MinimaxPlayer(Player):
             value, move = self.maxValue(board, self.depth, alpha, beta, move_start_time)
         else:
             value, move = self.minValue(board, self.depth, alpha, beta, move_start_time)
+        end = time()
+        self.timer += end - start
         return move
 
     def maxValue(self, board:OthelloBoard, depth:int, alpha, beta, start_time):
